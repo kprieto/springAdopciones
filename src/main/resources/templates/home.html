@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <meta name="viewport" http-equiv="Content-Type" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link th:href="@{/css/output.css}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <br clas="container">
+        <h2 class="text-2xl text-fuchsia-600 font-bold">Menú Principal</h2>
+        <div class="flex justify-center items-center pt-12">
+            <img class="imgB" th:src="@{/images/logoBienv.png}" alt="Logo Bienvenidos">
+        </div>
+        
+        <div class="p-8 h-56 grid grid-cols-4 gap-4">
+            <div>
+                <a th:href="@{/adopciones}">
+                    <img class="imgMenu size-64" th:src="@{/images/adopciones.png}" alt="Adopciones">
+                </a>            
+            </div>
+            <div>   
+                <a th:href="@{/mascotas}">             
+                    <img class="imgMenu size-64" th:src="@{/images/mascotas.png}" alt="Mascotas">
+                </a>
+            </div>
+            <div> 
+                <a th:href="@{/tipoMascotas}">
+                    <img class="imgMenu size-64" th:src="@{/images/tipoMascota.png}" alt="Tipo Mascotas">
+                </a>               
+            </div>
+            <div>  
+                <a th:href="@{/usuarios}">
+                    <img class="imgMenu size-64" th:src="@{/images/usuarios.png}" alt="Usuarios">
+                </a>              
+            </div>
+        </div>
+        <br></br>
+        <br></br>
+
+            <main>
+                <form th:action="@{/logout}" method="post">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Logout</button>
+                </form>      
+            </main>
+        </div>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registro de Adopciones</title>
+    <link rel="stylesheet"th:href="@{/css/output.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mx-auto px-4">
+        <h1 class="text-fuchsia-600 text-2xl" th:text="${#strings.isEmpty(adopcion.id) ? 'Crear Nueva Adopción' : 'Editar Adopción'}"></h1>
+        <form th:action="@{${adopcion.id != null} ? '/adopciones/actualizar/' + ${adopcion.id} : '/adopciones/registrar'}" th:object="${adopcion}"  method="post" enctype="multipart/form-data" class="space-y-6">
+            <input type="hidden" th:if="${!#strings.isEmpty(adopcion.id)}" th:value="${adopcion.id}" />
+
+                <!-- Mascota -->
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <label for="mascota" class="block uppercase text-sm font-bold text-gray-700">Mascota: </label>
+                    <select id="mascota" name="mascota" th:field="*{mascota}" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option value="">Seleccione una mascota</option>
+                        <option th:each="mascota : ${listaMascotas}" th:value="${mascota.id}" th:text="${mascota.nombre}"></option>
+                    </select>
+                </div>
+
+                <!-- Usuario -->
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <label for="usuario" class="block uppercase text-sm font-bold text-gray-700">Usuario: </label>
+                    <select id="usuario" name="usuario" th:field="*{usuario}" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option value="">Seleccione un usuario</option>
+                        <option th:each="usuario : ${listaUsuarios}" th:value="${usuario.id}" th:text="${usuario.nombre}"></option>
+                    </select>
+                </div>
+
+                <!-- Fecha de adopción -->
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <label for="fechaAdopcion" class="block uppercase text-sm font-bold text-gray-700">Fecha de adopción:</label>
+                    <input type="date" id="fechaAdopcion" name="fechaAdopcion" th:field="*{fechaAdopcion}" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
+
+                <br></br>
+                <div th:if="${error}" class="bg-red-100 text-red-700 p-2 rounded mb-4 font-bold">
+                    <p th:text="${error}"></p>
+                </div>
+                <!-- Botón de Enviar -->
+                <div class="flex justify-center">
+                    <button type="submit"
+                            class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded " th:text="${adopcion.id != null ? 'Actualizar Adopción' : 'Registrar Adopción'}">
+                    </button>
+                </div>
+        </form>
+        <div class="flex justify-end">
+            <a th:href="@{/adopciones}"
+                    class="px-4 py-2 bg-green-500 hover:bg-green-700 text-white font-bold rounded " > Adopciones
+            </a>
+        </div>
+    </div>
+    
+
+</body>
+</html>

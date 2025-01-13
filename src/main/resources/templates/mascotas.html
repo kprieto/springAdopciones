@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Mascotas</title>
+    <meta name="viewport" http-equiv="Content-Type" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/botones.css}">
+    <link rel="stylesheet"th:href="@{/css/output.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+        <div class="container mx-auto px-4">
+            <h2 class="text-fuchsia-600 text-2xl">Mascotas Registradas</h2>
+            <br></br>
+            <a a th:href="@{/mascotas/new}" class="btn px-3 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded" style="width: 25%">+ Nueva Mascota</a>
+            <br></br>
+            <div th:if="${mensaje}" id="mensaje-exito" class="mensaje bg-green-100 text-green-700 p-2 rounded mb-4 font-bold ">
+                <p  th:text="${mensaje}"></p>
+            </div>
+            <table class="min-w-full table-auto border border-fuchsia-600 border-separate border-spacing-2">
+                <thead class="uppercase bg-[#e541c4] text-[#e5e7eb]" style="background-color: #e541c4; color: #e5e7eb;">
+                    <tr>
+                        <th class="border border-fuchsia-600 px-4 py-2">ID</th>
+                        <th class="border border-fuchsia-600 px-4 py-2">Nombre</th>
+                        <th class="border border-fuchsia-600 px-4 py-2">Tipo Mascota</th>
+                        <th class="border border-fuchsia-600 px-4 py-2">Disponible</th>
+                        <th class="border border-fuchsia-600 px-4 py-2">Edad</th>
+                        <th class="border border-fuchsia-600 px-4 py-2">Raza</th>
+                        <th class="border border-fuchsia-600 px-4 py-2">Vacunado</th>
+                        <th class="border border-fuchsia-600 px-4 py-2">Foto</th>
+                        <th class="border border-fuchsia-600 px-4 py-2">Acciones</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="mascota : ${mascotas}" class="hover:bg-gray-50">
+                        <td class="border border-fuchsia-600 px-4 py-2" th:text="${mascota.id}"></td>
+                        <td class="border border-fuchsia-600 px-4 py-2" th:text="${mascota.nombre}"></td>
+                        <td class="border border-fuchsia-600 px-4 py-2" th:text="${mascota.tipoMascota.nombre}"></td>
+                        <td class="border border-fuchsia-600 px-4 py-2" th:text="${mascota.disponible ? 'Si' : 'No'}"></td>
+                        <td class="border border-fuchsia-600 px-4 py-2" th:text="${mascota.edad} + ' ' + ${mascota.tiempo}"></td>
+                        <td class="border border-fuchsia-600 px-4 py-2" th:text="${mascota.raza}"></td>
+                        <td class="border border-fuchsia-600 px-4 py-2" th:text="${mascota.vacunado ? 'Si' : 'No'}"></td>
+                        <td class="border border-fuchsia-600 px-4 py-2" >
+                            <img th:src="@{'/images/' + ${mascota.foto}}" alt="Imagen de Mascota" class="h-48 w-full object-cover md:h-full md:w-48">
+                        </td>
+                        <td class="border border-fuchsia-600 px-4 py-2 flex items-center">
+                            <a class="mr-2" th:href="@{/mascotas/editar/{id}(id=${mascota.id})}" ><img class="w-20 h-20 object-contain" th:src="@{/images/Editar.png}" alt="Editar Mascota"></a>
+                            <a class="ml-2" th:href="@{/mascotas/eliminar/{id}(id=${mascota.id})}" onclick="return confirm('¿Estás seguro de que deseas eliminar la mascota?')"><img class=" w-20 h-20 object-contain" th:src="@{/images/Eliminar.png}" alt="Eliminar Mascota"></a>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <div class="flex justify-end pt-6">
+                <a th:href="@{/home}"
+                        class="px-4 py-2 bg-green-500 hover:bg-green-700 text-white font-bold rounded " > Home
+                </a>
+            </div>
+            
+        </div>
+        
+    </body>
+    <script>
+        // Esconde el mensaje de éxito después de 3 segundos
+        setTimeout(() => {
+            const mensajeExito = document.getElementById("mensaje-exito");
+            if (mensajeExito) {
+                mensajeExito.style.display = "none";
+            }
+
+        }, 3000); // 3000 milisegundos = 3 segundos
+    </script>
+</html>

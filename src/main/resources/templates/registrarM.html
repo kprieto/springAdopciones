@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registro de Mascota</title>
+    <link rel="stylesheet"th:href="@{/css/output.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mx-auto px-4">
+        <h1 class="text-fuchsia-600 text-2xl" th:text="${#strings.isEmpty(mascota.id) ? 'Crear Nueva Mascota' : 'Editar Mascota'}"></h1>
+        <form th:action="@{${mascota.id != null} ? '/mascotas/actualizar/' + ${mascota.id} : '/mascotas/registrar'}" th:object="${mascota}"  method="post" enctype="multipart/form-data" class="space-y-6">
+            <input type="hidden" th:if="${!#strings.isEmpty(mascota.id)}" th:value="${mascota.id}" />
+                <!-- Nombre -->
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <label for="nombre" class="block uppercase text-sm font-bold text-gray-700 mb-2">Nombre de la Mascota: </label>
+                    <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required
+                        class="mt-1 block w-full py-3 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);">
+                </div>
+
+                <!-- Tipo de Mascota -->
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <label for="tipoMascota" class="block uppercase text-sm font-bold text-gray-700">Tipo de Mascota: </label>
+                    <select id="tipoMascota" name="tipoMascota" th:field="*{tipoMascota}" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option value="">Seleccione una opción</option>
+                        <option th:each="tipoMascota : ${listaMascotas}" th:value="${tipoMascota.id}" th:text="${tipoMascota.nombre}"></option>
+                    </select>
+                </div>
+
+                <!-- Edad -->
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <label for="edad" class="block uppercase text-sm font-bold text-gray-700">Edad:</label>
+                    <input type="number" id="edad" name="edad" th:field="*{edad}" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
+
+                <!-- Tiempo  -->
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <label for="tiempo" class="block uppercase text-sm font-bold text-gray-700">Tiempo:</label>
+                        <select id="tiempo" name="tiempo" th:field="*{tiempo}" required
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="">Seleccione una opción</option>
+                            <option value="Meses">Meses</option>
+                            <option value="Años">Años</option>
+                        </select>
+                </div>
+
+                <!-- Disponible  -->
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <label for="disponible" class="block uppercase text-sm font-bold text-gray-700">Disponible:</label>
+                        <select id="disponible" name="disponible" th:field="*{disponible}" required
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="">Seleccione una opción</option>
+                            <option th:value="True">Si</option>
+                            <option th:value="False">No</option>
+                        </select>
+                </div>
+
+                <!-- Raza -->
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <label for="raza" class="block uppercase text-sm font-bold text-gray-700">Raza:</label>
+                    <input type="text" id="raza" name="raza" th:field="*{raza}" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);">
+                </div>
+
+                <!-- Vacunada  -->
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <label for="vacunado" class="block uppercase text-sm font-bold text-gray-700">Vacunado:</label>
+                        <select id="vacunado" name="vacunado" th:field="*{vacunado}" required
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="">Seleccione una opción</option>
+                            <option th:value="True">Si</option>
+                            <option th:value="False">No</option>
+                        </select>
+                </div>
+
+                <!-- Foto -->
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <label for="foto" class="block uppercase text-sm font-bold text-gray-700">Foto de la Mascota</label>
+                    <input type="file" id="image" name="image" accept="image/*"  required
+                            class="mt-1 block w-full text-sm text-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <br></br>
+                <div th:if="${error}" class="bg-red-100 text-red-700 p-2 rounded mb-4 font-bold">
+                    <p th:text="${error}"></p>
+                </div>
+                <!-- Botón de Enviar -->
+                <div class="flex justify-center">
+                    <button type="submit"
+                            class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded " th:text="${mascota.id != null ? 'Actualizar Mascota' : 'Registrar Mascota'}">
+                    </button>
+                </div>
+        </form>
+        <div class="flex justify-end">
+            <a th:href="@{/mascotas}"
+                    class="px-4 py-2 bg-green-500 hover:bg-green-700 text-white font-bold rounded " > Mascotas
+            </a>
+        </div>
+    </div>
+    
+
+</body>
+</html>

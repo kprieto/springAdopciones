@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Adopciones</title>
+    <meta name="viewport" http-equiv="Content-Type" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link th:href="@{/css/output.css}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mx-auto px-4">
+            <h2 class="text-2xl text-fuchsia-600 font-bold">Adopciones Registradas</h2>
+            <br></br>
+            <a a th:href="@{/adopciones/new}" class="btn px-3 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded" style="width: 25%">+ Nueva Adopción</a>
+            <br></br>
+            <div th:if="${mensaje}" id="mensaje-exito" class="mensaje bg-green-100 text-green-700 p-2 rounded mb-4 font-bold ">
+                <p  th:text="${mensaje}"></p>
+            </div>
+
+            <table class="min-w-full table-auto border border-fuchsia-600 border-separate border-spacing-2">
+                <thead class="uppercase bg-[#e541c4] text-[#e5e7eb]" style="background-color: #e541c4; color: #e5e7eb;">
+                    <tr>
+                        <th class="border border-fuchsia-600 px-4 py-2">ID</th>
+                        <th class="border border-fuchsia-600 px-4 py-2">Mascota</th>
+                        <th class="border border-fuchsia-600 px-4 py-2">Usuario</th>
+                        <th class="border border-fuchsia-600 px-4 py-2">Fecha Adopción</th>
+                        <th class="border border-fuchsia-600 px-4 py-2">Acciones</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="adopcion : ${adopciones}" class="hover:bg-gray-50 text-center">
+                        <td class="border border-fuchsia-600 px-4 py-2" th:text="${adopcion.id}"></td>
+                        <td class="border border-fuchsia-600 px-4 py-2" th:text="${adopcion.mascota.nombre}"></td>
+                        <td class="border border-fuchsia-600 px-4 py-2" th:text="${adopcion.usuario.nombre + ' ' + adopcion.usuario.apellidoPaterno + ' ' + adopcion.usuario.apellidoMaterno}"></td>
+                        <td class="border border-fuchsia-600 px-4 py-2" th:text="${adopcion.fechaAdopcion}"></td>
+                        <td class="border border-fuchsia-600 px-4 py-2 flex items-center">
+                            <a class="mr-2" th:href="@{/adopciones/editar/{id}(id=${adopcion.id})}" ><img class="h-20 w-20" th:src="@{/images/Editar.png}" alt="Editar Adopción"></a>
+                            <a class="ml-2" th:href="@{/adopciones/eliminar/{id}(id=${adopcion.id})}" onclick="return confirm('¿Estás seguro de que deseas eliminar la adopción?')"><img class=" h-20 w-20" th:src="@{/images/Eliminar.png}" alt="Eliminar Adopción"></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="flex justify-end pt-6">
+                <a th:href="@{/home}"
+                        class="px-4 py-2 bg-green-500 hover:bg-green-700 text-white font-bold rounded " > Home
+                </a>
+            </div>
+    </div>
+</body>
+    <script>
+        // Esconde el mensaje de éxito después de 3 segundos
+        setTimeout(() => {
+            const mensajeExito = document.getElementById("mensaje-exito");
+            if (mensajeExito) {
+                mensajeExito.style.display = "none";
+            }
+
+        }, 3000); // 3000 milisegundos = 3 segundos
+    </script>
+</html>
